@@ -44,11 +44,23 @@ public class MainView extends VerticalLayout {
             UI.getCurrent().navigate("registration");
         });
 
+        Button userList = new Button("Seznam uživatelů");
+        userList.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
+        userList.addClickListener(event -> {
+            UI.getCurrent().navigate("user-list");
+        });
+
+        Button addUser = new Button("Přidej nového uživatele");
+        addUser.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
+        addUser.addClickListener(event -> {
+            UI.getCurrent().navigate("add-user");
+        });
+
         login.addLoginListener(loginEvent -> {
             sharedComponents.userName = loginEvent.getUsername();
             UI.getCurrent().navigate("user-logged");
         });
 
-        add(login, registrationButton);
+        add(login, registrationButton, userList, addUser);
     }
 }
