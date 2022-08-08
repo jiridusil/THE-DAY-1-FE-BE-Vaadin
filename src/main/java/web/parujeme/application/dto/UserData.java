@@ -1,4 +1,4 @@
-package web.parujeme.application.components;
+package web.parujeme.application.dto;
 
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -12,18 +12,20 @@ import org.springframework.stereotype.Component;
  */
 @UIScope
 @Component
-public class RegisterComponents {
+public class UserData {
 
     public String userName;
-    public TextField name = new TextField();
+    public String firstNameString;
+    public String lastNameString;
+    public TextField firstName = new TextField();
     public EmailField email = new EmailField();
     public DatePicker date = new DatePicker();
 
-    public TextField getName() {
-        return name;
+    public TextField getFirstName() {
+        return firstName;
     }
 
-    public void setName(TextField name) {
-        this.name = name;
+    public void setFirstName(TextField firstName) {
+        this.firstName = firstName;
     }
 }

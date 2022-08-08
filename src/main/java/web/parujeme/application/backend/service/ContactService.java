@@ -69,9 +69,7 @@ public class ContactService {
             Random r = new Random(0);
             List<Company> companies = companyRepository.findAll();
             contactRepository.saveAll(
-                    Stream.of("Gabrielle Patel", "Brian Robinson", "Eduardo Haugen",
-                                    "Koen Johansen", "Alejandro Macdonald", "Angel Karlsson", "Yahir Gustavsson", "Haiden Svensson",
-                                    "Emily Stewart", "Corinne Davis")
+                    Stream.of("Pavel Nezadany", "Jiri Volny")
                             .map(name -> {
                                 String[] split = name.split(" ");
                                 Contact contact = new Contact();

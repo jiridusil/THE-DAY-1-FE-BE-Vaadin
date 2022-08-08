@@ -5,8 +5,7 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -19,53 +18,32 @@ import web.parujeme.application.backend.entity.Contact;
  * @author jdusil
  * @date 2022-08-05 3:37 PM
  */
-public class ContactForm extends FormLayout {
+public class RegistrationLayout extends VerticalLayout {
     private Contact contact;
 
     Binder<Contact> binder = new BeanValidationBinder<>(Contact.class);
 
-    TextField firstName = new TextField("First name");
-    TextField lastName = new TextField("Last name");
+    TextField firstName = new TextField("Jméno");
+    TextField lastName = new TextField("Příjmení");
     EmailField email = new EmailField("Email");
-//    ComboBox<Contact.Status> status = new ComboBox<>("Status");
-//    ComboBox<Company> company = new ComboBox<>("Company");
+    Button save = new Button("Registrovat");
 
-    Button save = new Button("Save");
-//    Button delete = new Button("Delete");
-    Button close = new Button("Cancel");
-
-    public ContactForm() {
-        addClassName("contact-form");
+    public RegistrationLayout() {
         binder.bindInstanceFields(this);
-
-//        company.setItems(companies);
-//        company.setItemLabelGenerator(Company::getName);
-//        status.setItems(Contact.Status.values());
 
         add(firstName,
                 lastName,
                 email,
-//                company,
-//                status,
                 createButtonsLayout());
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
     }
-    private HorizontalLayout createButtonsLayout() {
-        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-//        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-
+    private Button createButtonsLayout() {
+        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
         save.addClickShortcut(Key.ENTER);
-//        close.addClickShortcut(Key.ESCAPE);
-
         save.addClickListener(event -> validateAndSave());
-//        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, contact)));
-//        close.addClickListener(event -> fireEvent(new CloseEvent(this)));
-//        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
 
-        return new HorizontalLayout(save
-//                , delete
-                , close
-        );
+        return save;
     }
 
     private void validateAndSave() {
@@ -73,7 +51,6 @@ public class ContactForm extends FormLayout {
             binder.writeBean(contact);
             fireEvent(new SaveEvent(this, contact));
         } catch (ValidationException e) {
-//        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -83,9 +60,9 @@ public class ContactForm extends FormLayout {
         binder.readBean(contact);
     }
 
-    public static abstract class ContactFormEvent extends ComponentEvent<ContactForm> {
+    public static abstract class ContactFormEvent extends ComponentEvent<RegistrationLayout> {
         private Contact contact;
-        protected ContactFormEvent(ContactForm source, Contact contact) {
+        protected ContactFormEvent(RegistrationLayout source, Contact contact) {
             super(source, false);
             this.contact = contact;
         }
@@ -94,17 +71,17 @@ public class ContactForm extends FormLayout {
         }
     }
     public static class SaveEvent extends ContactFormEvent {
-        SaveEvent(ContactForm source, Contact contact) {
+        SaveEvent(RegistrationLayout source, Contact contact) {
             super(source, contact);
         }
     }
     public static class DeleteEvent extends ContactFormEvent {
-        DeleteEvent(ContactForm source, Contact contact) {
+        DeleteEvent(RegistrationLayout source, Contact contact) {
             super(source, contact);
         }
     }
     public static class CloseEvent extends ContactFormEvent {
-        CloseEvent(ContactForm source) {
+        CloseEvent(RegistrationLayout source) {
             super(source, null);
         }
     }

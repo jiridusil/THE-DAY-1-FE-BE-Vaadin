@@ -1,47 +1,47 @@
 package web.parujeme.application.views;
 
-import web.parujeme.application.components.RegisterComponents;
-import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import web.parujeme.application.backend.entity.Contact;
+import web.parujeme.application.backend.service.ContactService;
+import web.parujeme.application.dto.UserData;
 
 /**
  * @author jdusil
- * @date 2022-08-03 8:46 PM
+ * @date 2022-08-05 7:48 PM
  */
-@Route("registration")
-public class RegistrationView extends Composite<VerticalLayout> {
+@Route("add-user")
+public class RegistrationView extends VerticalLayout {
+    private ContactService contactService;
+    private Contact contact;
+    private UserData userData;
 
-    public RegistrationView(RegisterComponents sharedComponents) {
-        VerticalLayout layout = getContent();
+    private TextField filterText = new TextField();
+    private RegistrationLayout registrationLayout;
 
-        sharedComponents.name.setLabel("Celé jméno");
-        sharedComponents.name.setRequiredIndicatorVisible(true);
-        sharedComponents.name.setRequired(true);
-        sharedComponents.name.setErrorMessage("Toto pole je povinné");
+    public RegistrationView(ContactService contactService, UserData userData) {
+        this.userData = userData;
+        this.contactService = contactService;
+        addClassName("list-view");
+        setSizeFull();
 
-        sharedComponents.email.setLabel("Email");
-        sharedComponents.email.setRequiredIndicatorVisible(true);
-        sharedComponents.email.setErrorMessage("Toto pole je povinné");
+        registrationLayout = new RegistrationLayout();
+        registrationLayout.setContact(new Contact());
+        registrationLayout.addListener(RegistrationLayout.SaveEvent.class, this::saveContact);
 
-        sharedComponents.date.setLabel("Datum narozeni");
+        add(registrationLayout);
+    }
 
-        Button registrationButton = new Button("Vytvořit účet");
-        registrationButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
-        registrationButton.addClickListener(event -> {
-            UI.getCurrent().navigate("user-new");
-        });
-        
-        layout.add(new H1("Pojďme na to..."),
-                sharedComponents.name, sharedComponents.email,
-                sharedComponents.date, registrationButton);
-        layout.setSizeFull();
-        layout.setAlignItems(FlexLayout.Alignment.CENTER);
-        layout.setJustifyContentMode(FlexLayout.JustifyContentMode.CENTER);
+    private void saveContact(RegistrationLayout.SaveEvent event) {
+        userData.firstNameString = event.getContact().getFirstName();
+        userData.lastNameString = event.getContact().getLastName();
+        contactService.save(event.getContact());
+        Notification notification = Notification.show("Application submitted!");
+        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+        UI.getCurrent().navigate("user-new");
     }
 }
