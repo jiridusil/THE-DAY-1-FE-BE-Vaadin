@@ -20,12 +20,12 @@ public class Contact extends AbstractEntity implements Cloneable {
     @NotNull
     @NotEmpty
     private String lastName = "";
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private Contact.Status status;
+//    @ManyToOne
+//    @JoinColumn(name = "company_id")
+//    private Company company;
+//    @Enumerated(EnumType.STRING)
+//    @NotNull
+//    private Contact.Status status;
     @Email
     @NotNull
     @NotEmpty
@@ -36,12 +36,12 @@ public class Contact extends AbstractEntity implements Cloneable {
     public void setEmail(String email) {
         this.email = email;
     }
-    public Status getStatus() {
-        return status;
-    }
-    public void setStatus(Status status) {
-        this.status = status;
-    }
+//    public Status getStatus() {
+//        return status;
+//    }
+//    public void setStatus(Status status) {
+//        this.status = status;
+//    }
     public String getLastName() {
         return lastName;
     }
@@ -54,12 +54,12 @@ public class Contact extends AbstractEntity implements Cloneable {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    public void setCompany(Company company) {
-        this.company = company;
-    }
-    public Company getCompany() {
-        return company;
-    }
+//    public void setCompany(Company company) {
+//        this.company = company;
+//    }
+//    public Company getCompany() {
+//        return company;
+//    }
     @Override
     public String toString() {
         return firstName + " " + lastName;

@@ -20,39 +20,33 @@ import web.parujeme.application.backend.service.ContactService;
 @Route("add-user")
 public class AddUser extends VerticalLayout {
     private ContactService contactService;
+    private Contact contact;
 
-    private Grid<Contact> grid = new Grid<>(Contact.class);
     private TextField filterText = new TextField();
     private ContactForm form;
 
-    public AddUser(ContactService contactService,
-                   CompanyService companyService) {
+    public AddUser(ContactService contactService) {
         this.contactService = contactService;
         addClassName("list-view");
         setSizeFull();
 
-        form = new ContactForm(companyService.findAll());
+        form = new ContactForm();
+        form.setContact(new Contact());
         form.addListener(ContactForm.SaveEvent.class, this::saveContact);
-        form.addListener(ContactForm.DeleteEvent.class, this::deleteContact);
-        form.addListener(ContactForm.CloseEvent.class, e -> closeEditor());
+//        form.addListener(ContactForm.CloseEvent.class, e -> closeEditor());
 
         Div content = new Div(form);
         content.addClassName("content");
         content.setSizeFull();
 
-        add(getToolbar(), content);
+        add(content);
     }
 
     private void saveContact(ContactForm.SaveEvent event) {
         contactService.save(event.getContact());
-        updateList();
+//        updateList();
     }
 
-    private void deleteContact(ContactForm.DeleteEvent event) {
-        contactService.delete(event.getContact());
-        updateList();
-        closeEditor();
-    }
 
     public void editContact(Contact contact) {
         if (contact == null) {
@@ -70,9 +64,9 @@ public class AddUser extends VerticalLayout {
         removeClassName("editing");
     }
 
-    private void updateList() {
-        grid.setItems(contactService.findAll(filterText.getValue()));
-    }
+//    private void updateList() {
+//        grid.setItems(contactService.findAll(filterText.getValue()));
+//    }
 
     private HorizontalLayout getToolbar() {
         Button addContactButton = new Button("Add contact");
@@ -84,7 +78,6 @@ public class AddUser extends VerticalLayout {
     }
 
     void addContact() {
-        grid.asSingleSelect().clear();
         editContact(new Contact());
     }
 }

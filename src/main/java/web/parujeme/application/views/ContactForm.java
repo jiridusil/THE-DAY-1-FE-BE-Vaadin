@@ -34,42 +34,45 @@ public class ContactForm extends FormLayout {
     TextField firstName = new TextField("First name");
     TextField lastName = new TextField("Last name");
     EmailField email = new EmailField("Email");
-    ComboBox<Contact.Status> status = new ComboBox<>("Status");
-    ComboBox<Company> company = new ComboBox<>("Company");
+//    ComboBox<Contact.Status> status = new ComboBox<>("Status");
+//    ComboBox<Company> company = new ComboBox<>("Company");
 
     Button save = new Button("Save");
-    Button delete = new Button("Delete");
+//    Button delete = new Button("Delete");
     Button close = new Button("Cancel");
 
-    public ContactForm(List<Company> companies) {
+    public ContactForm() {
         addClassName("contact-form");
         binder.bindInstanceFields(this);
 
-        company.setItems(companies);
-        company.setItemLabelGenerator(Company::getName);
-        status.setItems(Contact.Status.values());
+//        company.setItems(companies);
+//        company.setItemLabelGenerator(Company::getName);
+//        status.setItems(Contact.Status.values());
 
         add(firstName,
                 lastName,
                 email,
-                company,
-                status,
+//                company,
+//                status,
                 createButtonsLayout());
     }
     private HorizontalLayout createButtonsLayout() {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+//        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
+//        close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
 
         save.addClickShortcut(Key.ENTER);
-        close.addClickShortcut(Key.ESCAPE);
+//        close.addClickShortcut(Key.ESCAPE);
 
         save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, contact)));
-        close.addClickListener(event -> fireEvent(new CloseEvent(this)));
-        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
+//        delete.addClickListener(event -> fireEvent(new DeleteEvent(this, contact)));
+//        close.addClickListener(event -> fireEvent(new CloseEvent(this)));
+//        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
 
-        return new HorizontalLayout(save, delete, close);
+        return new HorizontalLayout(save
+//                , delete
+//                , close
+        );
     }
 
     private void validateAndSave() {
@@ -77,6 +80,7 @@ public class ContactForm extends FormLayout {
             binder.writeBean(contact);
             fireEvent(new SaveEvent(this, contact));
         } catch (ValidationException e) {
+//        } catch (Exception e) {
             e.printStackTrace();
         }
     }

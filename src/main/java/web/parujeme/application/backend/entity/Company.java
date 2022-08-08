@@ -13,8 +13,8 @@ import java.util.List;
 @Entity
 public class Company extends AbstractEntity {
     private String name;
-    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
-    private List<Contact> employees = new LinkedList<>();
+//    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER)
+//    private List<Contact> employees = new LinkedList<>();
     public Company() {
     }
     public Company(String name) {
@@ -26,7 +26,7 @@ public class Company extends AbstractEntity {
     public void setName(String name) {
         this.name = name;
     }
-    public List<Contact> getEmployees() {
-        return employees;
-    }
+//    public List<Contact> getEmployees() {
+//        return employees;
+//    }
 }

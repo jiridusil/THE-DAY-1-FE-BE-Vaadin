@@ -27,17 +27,16 @@ public class UserListView extends VerticalLayout {
     private TextField filterText = new TextField();
     private ContactForm form;
 
-    public UserListView(ContactService contactService,
-                        CompanyService companyService) {
+    public UserListView(ContactService contactService) {
         this.contactService = contactService;
         addClassName("list-view");
         setSizeFull();
 
         configureGrid();
 
-        form = new ContactForm(companyService.findAll());
+        form = new ContactForm();
         form.addListener(ContactForm.SaveEvent.class, this::saveContact);
-        form.addListener(ContactForm.DeleteEvent.class, this::deleteContact);
+//        form.addListener(ContactForm.DeleteEvent.class, this::deleteContact);
         form.addListener(ContactForm.CloseEvent.class, e -> closeEditor());
         closeEditor();
 
@@ -51,8 +50,8 @@ public class UserListView extends VerticalLayout {
 
     private void saveContact(ContactForm.SaveEvent event) {
         contactService.save(event.getContact());
-        updateList();
-        closeEditor();
+//        updateList();
+//        closeEditor();
     }
     private void deleteContact(ContactForm.DeleteEvent event) {
         contactService.delete(event.getContact());
@@ -63,12 +62,14 @@ public class UserListView extends VerticalLayout {
     private void configureGrid() {
         grid.addClassName("contact-grid");
         grid.setSizeFull();
-        grid.removeColumnByKey("company");
-        grid.setColumns("firstName", "lastName", "email", "status");
-        grid.addColumn(contact -> {
-            Company company = contact.getCompany();
-            return company == null ? "-" : company.getName();
-        }).setHeader("Company");
+//        grid.removeColumnByKey("company");
+        grid.setColumns("firstName", "lastName", "email"
+//                , "status"
+        );
+//        grid.addColumn(contact -> {
+//            Company company = contact.getCompany();
+//            return company == null ? "-" : company.getName();
+//        }).setHeader("Company");
 
         grid.asSingleSelect().addValueChangeListener(event ->
                 editContact(event.getValue()));
@@ -109,7 +110,8 @@ public class UserListView extends VerticalLayout {
     }
 
     void addContact() {
-        grid.asSingleSelect().clear();
+        //pri opakovanem kliknuti form zmizi
+//        grid.asSingleSelect().clear();
         editContact(new Contact());
     }
 }
