@@ -1,6 +1,5 @@
 package web.parujeme.application.views;
 
-import web.parujeme.application.components.RegisterComponents;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -9,6 +8,7 @@ import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import web.parujeme.application.dto.UserData;
 
 /**
  * @author jdusil
@@ -16,12 +16,12 @@ import com.vaadin.flow.router.Route;
  */
 
 @Route(value = "")
-@PageTitle("Login | Jiri")
+@PageTitle("Login | Parujeme.cz")
 public class MainView extends VerticalLayout {
 
     private final LoginI18n i18 = LoginI18n.createDefault();
 
-    public MainView(RegisterComponents sharedComponents) {
+    public MainView(UserData userData) {
         LoginI18n.Form i18Form = i18.getForm();
         i18Form.setTitle("Vítejte");
         i18Form.setUsername("Uživatelské jméno");
@@ -38,17 +38,21 @@ public class MainView extends VerticalLayout {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        Button registrationButton = new Button("Založit účet");
-        registrationButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
-        registrationButton.addClickListener(event -> {
-            UI.getCurrent().navigate("registration");
+        Button addUser = new Button("Registrace");
+        addUser.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_SUCCESS);
+        addUser.addClickListener(event -> {
+            UI.getCurrent().navigate("add-user");
         });
 
         login.addLoginListener(loginEvent -> {
-            sharedComponents.userName = loginEvent.getUsername();
-            UI.getCurrent().navigate("user-logged");
+            if(loginEvent.getUsername().equals("admin")) {
+            UI.getCurrent().navigate("admin-view");
+            } else {
+                userData.userName = loginEvent.getUsername();
+                UI.getCurrent().navigate("user-logged");
+            }
         });
 
-        add(login, registrationButton);
+        add(login, addUser);
     }
 }
