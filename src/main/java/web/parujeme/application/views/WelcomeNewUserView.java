@@ -55,9 +55,15 @@ public class WelcomeNewUserView extends VerticalLayout {
             showChat();
         });
 
+        Button messaging = new Button("Messaging");
+        messaging.addClickListener(event -> {
+            UI.getCurrent().navigate("messaging");
+        });
+
         layout.add(new H1("Vytvořen nový profil pro uživatele: "
                 + userData.firstNameString + " "
-                + userData.lastNameString), startChat);
+                + userData.lastNameString), startChat, messaging);
+
 
         add(layout);
     }

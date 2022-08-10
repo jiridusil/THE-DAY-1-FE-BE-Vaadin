@@ -142,6 +142,13 @@
             <artifactId>reactor-core</artifactId>
             <version>3.4.21</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-push -->
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-push</artifactId>
+            <version>8.16.1</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 
