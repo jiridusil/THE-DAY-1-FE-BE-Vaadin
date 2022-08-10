@@ -49,20 +49,20 @@ public class WelcomeNewUserView extends VerticalLayout {
 
     private void goToChat(UserData userData) {
         VerticalLayout layout = new VerticalLayout();
-        Button startChat = new Button("Začít chatovat");
-        startChat.addClickListener(click -> {
+        Button startChatV1 = new Button("Chat verze 1");
+        startChatV1.addClickListener(click -> {
             remove(layout);
             showChat();
         });
 
-        Button messaging = new Button("Messaging");
-        messaging.addClickListener(event -> {
+        Button startChatV2 = new Button("Char verze 2");
+        startChatV2.addClickListener(event -> {
             UI.getCurrent().navigate("messaging");
         });
 
         layout.add(new H1("Vytvořen nový profil pro uživatele: "
                 + userData.firstNameString + " "
-                + userData.lastNameString), startChat, messaging);
+                + userData.lastNameString), startChatV1, startChatV2);
 
 
         add(layout);

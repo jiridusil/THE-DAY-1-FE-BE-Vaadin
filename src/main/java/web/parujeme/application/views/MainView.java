@@ -44,11 +44,6 @@ public class MainView extends VerticalLayout {
             UI.getCurrent().navigate("add-user");
         });
 
-        Button messaging = new Button("Messaging");
-        messaging.addClickListener(event -> {
-            UI.getCurrent().navigate("messaging");
-        });
-
         login.addLoginListener(loginEvent -> {
             if(loginEvent.getUsername().equals("admin")) {
             UI.getCurrent().navigate("admin-view");
@@ -58,6 +53,6 @@ public class MainView extends VerticalLayout {
             }
         });
 
-        add(login, addUser, messaging);
+        add(login, addUser);
     }
 }

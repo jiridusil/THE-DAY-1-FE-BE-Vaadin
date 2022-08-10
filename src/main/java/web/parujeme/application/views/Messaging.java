@@ -17,7 +17,7 @@ import java.util.List;
  * @date 2022-08-10 4:07 PM
  */
 @Route("messaging")
-public class Messaging extends Div {
+public class Messaging extends VerticalLayout{
 
     UserData userData;
 
@@ -31,6 +31,7 @@ public class Messaging extends Div {
 //        add(input);
         MessageList list = new MessageList();
         MessageInput input = new MessageInput();
+        input.setWidth("100%");
         input.addSubmitListener(submitEvent -> {
             MessageListItem newMessage = new MessageListItem(
                     submitEvent.getValue(), Instant.now(), userData.firstNameString);
@@ -38,6 +39,7 @@ public class Messaging extends Div {
             List<MessageListItem> items = new ArrayList<>(list.getItems());
             items.add(newMessage);
             list.setItems(items);
+            list.setWidth("100%");
         });
 
 //        Person person = DataService.getPeople(1).get(0);
@@ -57,6 +59,7 @@ public class Messaging extends Div {
         chatLayout.setHeight("100%");
         chatLayout.setWidth("100%");
         chatLayout.expand(list);
+        expand(chatLayout);
         add(chatLayout);
     }
 
