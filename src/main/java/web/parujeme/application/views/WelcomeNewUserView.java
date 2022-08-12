@@ -8,6 +8,8 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -52,7 +54,8 @@ public class WelcomeNewUserView extends VerticalLayout {
 
     private void goToChat(UserData userData) {
         VerticalLayout layout = new VerticalLayout();
-        Button startChat = new Button("Začít chatovat");
+//        Button startChat = new Button("Začít chatovat");
+        Icon startChat = new Icon(VaadinIcon.CHAT);
         startChat.addClickListener(click -> {
             remove(layout);
             showChat(userData);
@@ -75,7 +78,7 @@ public class WelcomeNewUserView extends VerticalLayout {
             getUI().ifPresent(ui -> ui.access(() ->
                     messageListek.add(new Paragraph(
                             //todo: change userData.firstNameString to the name from ChatMessage
-                            userData.firstNameString + ": " + message.getMessage()))
+                            userData.firstNameString + " " + message.getTime().getHour() + ":"+ message.getTime().getMinute() + ": " + message.getMessage()))
             ));
         });
     }
