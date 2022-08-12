@@ -1,6 +1,7 @@
 package web.parujeme.application.views;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -37,6 +38,8 @@ public class WelcomeNewUserView extends VerticalLayout {
         this.publisher = publisher;
         this.messages = messages;
         this.userData = userData;
+        addClassName("list-view");
+        setSizeFull();
         Button backToLogin = new Button("Logout");
         backToLogin.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         backToLogin.addClickListener(buttonClickEvent -> {
@@ -52,7 +55,7 @@ public class WelcomeNewUserView extends VerticalLayout {
         Button startChat = new Button("Začít chatovat");
         startChat.addClickListener(click -> {
             remove(layout);
-            showChat();
+            showChat(userData);
         });
 
         layout.add(new H1("Vytvořen nový profil pro uživatele: "
@@ -62,31 +65,37 @@ public class WelcomeNewUserView extends VerticalLayout {
         add(layout);
     }
 
-    private void showChat() {
+    private void showChat(UserData userData) {
         MessageListek messageListek = new MessageListek();
 
-        add(messageListek, createInputLayout());
+        add(messageListek, createInputLayout(userData));
         expand(messageListek);
 
         messages.subscribe(message -> {
-           messageListek.add(new Paragraph(message.getFrom() + ": " + message.getMessage()));
+            getUI().ifPresent(ui -> ui.access(() ->
+                    messageListek.add(new Paragraph(
+                            //todo: change userData.firstNameString to the name from ChatMessage
+                            userData.firstNameString + ": " + message.getMessage()))
+            ));
         });
     }
 
-    private Component createInputLayout() {
+    private Component createInputLayout(UserData userData) {
         HorizontalLayout layout = new HorizontalLayout();
         layout.setWidth("100%");
         TextField messageField = new TextField();
         Button sendButton = new Button("Send");
         sendButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        sendButton.addClickShortcut(Key.ENTER);
 
         layout.add(messageField, sendButton);
         layout.expand(messageField);
 
         sendButton.addClickListener(click -> {
-           publisher.onNext(new ChatMessage(userData.userName, messageField.getValue()));
-           messageField.clear();
-           messageField.focus();
+            //todo: change userData.userName to the name from ChatMessage
+            publisher.onNext(new ChatMessage(userData.userName, messageField.getValue()));
+            messageField.clear();
+            messageField.focus();
         });
         messageField.focus();
 
