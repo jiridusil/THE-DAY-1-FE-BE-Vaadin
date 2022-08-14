@@ -8,8 +8,8 @@ import com.vaadin.flow.component.html.Div;
  * @date 2022-08-09 5:22 PM
  */
 
-public class MessageListek extends Div {
-    public MessageListek() {
+public class MessageList extends Div {
+    public MessageList() {
         addClassName("message-list");
     }
 

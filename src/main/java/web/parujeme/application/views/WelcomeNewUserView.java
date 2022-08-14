@@ -54,7 +54,6 @@ public class WelcomeNewUserView extends VerticalLayout {
 
     private void goToChat(UserData userData) {
         VerticalLayout layout = new VerticalLayout();
-//        Button startChat = new Button("Začít chatovat");
         Icon startChat = new Icon(VaadinIcon.CHAT);
         startChat.addClickListener(click -> {
             remove(layout);
@@ -69,16 +68,15 @@ public class WelcomeNewUserView extends VerticalLayout {
     }
 
     private void showChat(UserData userData) {
-        MessageListek messageListek = new MessageListek();
-
-        add(messageListek, createInputLayout(userData));
-        expand(messageListek);
+        MessageList messageList = new MessageList();
+        add(messageList, createInputLayout(userData));
+        expand(messageList);
 
         messages.subscribe(message -> {
             getUI().ifPresent(ui -> ui.access(() ->
-                    messageListek.add(new Paragraph(
+                    messageList.add(new Paragraph(
                             //todo: change userData.firstNameString to the name from ChatMessage
-                            userData.firstNameString + " " + message.getTime().getHour() + ":"+ message.getTime().getMinute() + ": " + message.getMessage()))
+                            message.getFrom() + " " + message.getTime().getHour() + ":"+ message.getTime().getMinute() + ": " + message.getMessage()))
             ));
         });
     }
@@ -95,8 +93,7 @@ public class WelcomeNewUserView extends VerticalLayout {
         layout.expand(messageField);
 
         sendButton.addClickListener(click -> {
-            //todo: change userData.userName to the name from ChatMessage
-            publisher.onNext(new ChatMessage(userData.userName, messageField.getValue()));
+            publisher.onNext(new ChatMessage(userData.firstNameString, messageField.getValue()));
             messageField.clear();
             messageField.focus();
         });
