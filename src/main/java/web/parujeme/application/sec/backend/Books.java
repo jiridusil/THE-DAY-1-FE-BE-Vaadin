@@ -1,4 +1,4 @@
-package web.parujeme.db.backend;
+package web.parujeme.application.sec.backend;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

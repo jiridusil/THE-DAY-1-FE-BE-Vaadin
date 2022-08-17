@@ -1,4 +1,4 @@
-package web.parujeme.db.backend;
+package web.parujeme.application.sec.backend;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,8 +1,7 @@
-package web.parujeme.db.views;
+package web.parujeme.application.sec.views;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.login.LoginOverlay;
-import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.router.Route;
 
 /**
