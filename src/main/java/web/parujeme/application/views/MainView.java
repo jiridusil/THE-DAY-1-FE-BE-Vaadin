@@ -10,6 +10,8 @@ import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import org.springframework.beans.factory.annotation.Autowired;
+import web.parujeme.application.backend.entity.Contact;
 import web.parujeme.application.backend.service.ContactService;
 import web.parujeme.application.dto.UserData;
 
@@ -23,15 +25,18 @@ import web.parujeme.application.dto.UserData;
 public class MainView extends VerticalLayout {
 
     private final LoginI18n i18 = LoginI18n.createDefault();
+//    @Autowired
+//    Contact contact;
 
-    public MainView(UserData userData, ContactService contactService) {
+    public MainView(ContactService contactService, Contact contact, UserData userData) {
         LoginI18n.Form i18Form = i18.getForm();
         i18Form.setTitle("Vítejte");
-        i18Form.setUsername("Uživatelské jméno");
+        i18Form.setUsername("Email");
         i18Form.setPassword("Heslo");
         i18Form.setForgotPassword("Zapomněli jste heslo?");
         i18Form.setSubmit("Přihlásit");
         i18.setForm(i18Form);
+//        this.contact = contact;
 
         LoginForm login = new LoginForm();
         login.setI18n(i18);
@@ -53,8 +58,12 @@ public class MainView extends VerticalLayout {
             } else {
                 String email = contactService.searchEmail(loginEvent.getUsername());
                 if (email != null) {
-                    userData.userName = loginEvent.getUsername();
-                    UI.getCurrent().navigate("user-logged");
+                    Contact contactData = contactService.searchContactByEmail(loginEvent.getUsername());
+                    contact.setFirstName(contactData.getFirstName());
+                    contact.setLastName(contactData.getLastName());
+                    contactData.setFirstName(contactData.getFirstName());
+                    userData.firstName = contactData.getFirstName();
+                    UI.getCurrent().navigate("profile");
                 } else {
                     Notification notification = Notification.show("Wrong credentials!");
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);

@@ -20,5 +20,6 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
     @Query("select c.email from Contact c where lower(c.email) = lower(:email)")
     String searchEmail(@Param("email") String searchTerm);
 
-
+    @Query("select c from Contact c where lower(c.email) = lower(:email)")
+    Contact searchContactByEmail(@Param("email") String searchTerm);
 }

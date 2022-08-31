@@ -61,6 +61,10 @@ public class ContactService {
         return contactRepository.searchEmail(email);
     }
 
+    public Contact searchContactByEmail(String email) {
+        return contactRepository.searchContactByEmail(email);
+    }
+
     @PostConstruct
     public void populateTestData() {
         if (companyRepository.count() == 0) {

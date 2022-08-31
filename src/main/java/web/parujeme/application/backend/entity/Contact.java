@@ -1,5 +1,7 @@
 package web.parujeme.application.backend.entity;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -10,6 +12,7 @@ import javax.validation.constraints.NotNull;
  * @date 2022-08-05 3:14 PM
  */
 @Entity
+@Component
 public class Contact extends AbstractEntity implements Cloneable {
     public enum Status {
         ImportedLead, NotContacted, Contacted, Customer, ClosedLost

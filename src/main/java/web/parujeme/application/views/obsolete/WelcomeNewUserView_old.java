@@ -1,4 +1,4 @@
-package web.parujeme.application.views;
+package web.parujeme.application.views.obsolete;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
@@ -19,6 +19,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.UnicastProcessor;
 import web.parujeme.application.dto.ChatMessage;
 import web.parujeme.application.dto.UserData;
+import web.parujeme.application.views.MessageList;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
 
@@ -29,14 +30,14 @@ import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROT
 @Route("user-new")
 @Scope(SCOPE_PROTOTYPE)
 @CssImport("./styles/shared-styles.css")
-public class WelcomeNewUserView extends VerticalLayout {
+public class WelcomeNewUserView_old extends VerticalLayout {
 
     UserData userData;
     private final UnicastProcessor<ChatMessage> publisher;
     private final Flux<ChatMessage> messages;
 
-    public WelcomeNewUserView(UserData userData, UnicastProcessor<ChatMessage> publisher,
-                              Flux<ChatMessage> messages) {
+    public WelcomeNewUserView_old(UserData userData, UnicastProcessor<ChatMessage> publisher,
+                                  Flux<ChatMessage> messages) {
         this.publisher = publisher;
         this.messages = messages;
         this.userData = userData;
@@ -61,8 +62,8 @@ public class WelcomeNewUserView extends VerticalLayout {
         });
 
         layout.add(new H1("Vytvořen nový profil pro uživatele: "
-                + userData.firstNameString + " "
-                + userData.lastNameString), startChat);
+                + userData.firstName + " "
+                + userData.lastName), startChat);
 
         add(layout);
     }
@@ -93,7 +94,7 @@ public class WelcomeNewUserView extends VerticalLayout {
         layout.expand(messageField);
 
         sendButton.addClickListener(click -> {
-            publisher.onNext(new ChatMessage(userData.firstNameString, messageField.getValue()));
+            publisher.onNext(new ChatMessage(userData.firstName, messageField.getValue()));
             messageField.clear();
             messageField.focus();
         });

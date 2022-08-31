@@ -23,9 +23,10 @@ public class RegistrationView extends VerticalLayout {
     private TextField filterText = new TextField();
     private RegistrationLayout registrationLayout;
 
-    public RegistrationView(ContactService contactService, UserData userData) {
-        this.userData = userData;
+    public RegistrationView(ContactService contactService, Contact contact, UserData userData) {
         this.contactService = contactService;
+        this.contact = contact;
+        this.userData = userData;
         addClassName("list-view");
         setSizeFull();
 
@@ -37,11 +38,12 @@ public class RegistrationView extends VerticalLayout {
     }
 
     private void saveContact(RegistrationLayout.SaveEvent event) {
-        userData.firstNameString = event.getContact().getFirstName();
-        userData.lastNameString = event.getContact().getLastName();
+        userData.firstName = event.getContact().getFirstName();
+        contact.setFirstName(event.getContact().getFirstName());
+        contact.setLastName(event.getContact().getLastName());
         contactService.save(event.getContact());
         Notification notification = Notification.show("Application submitted!");
         notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-        UI.getCurrent().navigate("user-new");
+        UI.getCurrent().navigate("profile");
     }
 }
